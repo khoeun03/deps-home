@@ -33,8 +33,6 @@ services:
         - action: sync
           path: ./frontend/
           target: /app/
-          ignore:
-            - node_modules/
     command: pnpm dev --host 0.0.0.0
     ports:
       - "5173:5173"
