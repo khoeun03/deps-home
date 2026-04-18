@@ -1,9 +1,10 @@
 import type { FastifyInstance } from 'fastify';
 
 import { db } from '../db/index.js';
+import { fromBase64UrlNoPad } from '../utils/encoding.js';
 import { signData } from '../utils/sign.js';
 
-export default (app: FastifyInstance) => {
+export default async (app: FastifyInstance) => {
   app.get<{
     Params: { identity: string };
   }>(
@@ -13,10 +14,7 @@ export default (app: FastifyInstance) => {
         params: {
           type: 'object',
           properties: {
-            identity: {
-              type: 'string',
-              pattern: '^::[a-zA-Z0-9_-]{43}$',
-            },
+            identity: { type: 'string', pattern: '^::[a-zA-Z0-9_-]{43}$' },
           },
         },
       },
@@ -28,6 +26,7 @@ export default (app: FastifyInstance) => {
       const identity = await db.query.identities.findFirst({
         columns: {
           publicKey: true,
+          privateKey: true,
           handle: true,
           bio: true,
           avatarUrl: true,
@@ -43,7 +42,7 @@ export default (app: FastifyInstance) => {
         signedAt: new Date(),
       };
 
-      return signData(data, app.serverKey.privateKey, app.serverKey.publicKey);
+      return signData(data, fromBase64UrlNoPad(identity.privateKey), fromBase64UrlNoPad(identity.publicKey));
     },
   );
 };
