@@ -37,6 +37,8 @@ services:
     command: pnpm dev --host 0.0.0.0
     ports:
       - "5173:5173"
+    networks:
+      - deps-home-net
 
   db:
     image: postgres:16

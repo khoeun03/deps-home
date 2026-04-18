@@ -13,7 +13,7 @@ export default async (app: FastifyInstance) => {
       password: string;
     };
   }>(
-    '/register',
+    '/signup',
     {
       schema: {
         body: {
@@ -67,7 +67,7 @@ export default async (app: FastifyInstance) => {
         });
       }
 
-      // TODO: Returns JWT Token
+      request.session.identityId = identity.id;
       return { success: true };
     },
   );
