@@ -1,7 +1,7 @@
 CREATE TABLE identities (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    public_key  BYTEA NOT NULL UNIQUE,
-    private_key BYTEA NOT NULL,
+    public_key  TEXT NOT NULL UNIQUE,
+    private_key TEXT NOT NULL,
     handle      VARCHAR(18) NOT NULL UNIQUE,
     bio         TEXT,
     avatar_url  TEXT,
@@ -23,7 +23,7 @@ CREATE TABLE solve_certificates (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     identity_id     UUID NOT NULL REFERENCES identities(id) ON DELETE CASCADE,
     server_domain   VARCHAR(255) NOT NULL,
-    server_key      BYTEA NOT NULL,
+    server_key      TEXT NOT NULL,
     problem_id      VARCHAR(32) NOT NULL,
     score           DOUBLE PRECISION NOT NULL CHECK (score >= 0 AND score <= 1),
     signed_at       TIMESTAMPTZ NOT NULL,

@@ -43,8 +43,8 @@ export default async (app: FastifyInstance) => {
         const [identity] = await tx
           .insert(identities)
           .values({
-            publicKey: toBase64UrlNoPad(publicKey),
-            privateKey: toBase64UrlNoPad(privateKey),
+            publicKey: toBase64UrlNoPad(publicKey.subarray(-32)),
+            privateKey: toBase64UrlNoPad(privateKey.subarray(-32)),
             handle: username,
           })
           .returning();
