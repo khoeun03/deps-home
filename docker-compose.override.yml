@@ -7,13 +7,13 @@ services:
         - action: sync
           path: ./api/
           target: /app/
-          ignore:
-            - node_modules/
+        - action: rebuild
+          path: ./api/package.json
     command: pnpm dev
     environment:
       NODE_ENV: production
       PORT: 3001
-      DATABASE_URL: postgres://deps_user:deps_pass@db:5433/deps_home_db
+      DATABASE_URL: postgres://deps_user:deps_pass@db:5432/deps_home_db
     ports:
       - "3001:3001"
     restart: unless-stopped

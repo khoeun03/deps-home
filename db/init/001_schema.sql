@@ -2,10 +2,9 @@ CREATE TABLE identities (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     public_key  BYTEA NOT NULL UNIQUE,
     private_key BYTEA NOT NULL,
-    nickname    VARCHAR(64) NOT NULL,
+    handle      VARCHAR(18) NOT NULL UNIQUE,
     bio         TEXT,
     avatar_url  TEXT,
-    handle      VARCHAR(18) UNIQUE,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
