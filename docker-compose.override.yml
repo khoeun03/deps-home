@@ -22,7 +22,22 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - deps-net
+      - deps-home-net
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/
+          target: /app/
+          ignore:
+            - node_modules/
+    command: pnpm dev --host 0.0.0.0
+    ports:
+      - "5173:5173"
 
   db:
     image: postgres:16
@@ -38,10 +53,10 @@ services:
     ports:
       - "5433:5433"
     networks:
-      - deps-net
+      - deps-home-net
 
 volumes:
   db-data:
 
 networks:
-  deps-net:
+  deps-home-net:
