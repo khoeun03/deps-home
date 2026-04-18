@@ -1,0 +1,35 @@
+CREATE TABLE identities (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    public_key  BYTEA NOT NULL UNIQUE,
+    private_key BYTEA NOT NULL,
+    nickname    VARCHAR(64) NOT NULL,
+    bio         TEXT,
+    avatar_url  TEXT,
+    handle      VARCHAR(18) UNIQUE,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE auth_methods (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    identity_id UUID NOT NULL REFERENCES identities(id) ON DELETE CASCADE,
+    provider    VARCHAR(32) NOT NULL,
+    credential  JSONB NOT NULL,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+    UNIQUE (identity_id, provider)
+);
+
+CREATE TABLE solve_certificates (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    identity_id     UUID NOT NULL REFERENCES identities(id) ON DELETE CASCADE,
+    server_domain   VARCHAR(255) NOT NULL,
+    server_key      BYTEA NOT NULL,
+    problem_id      VARCHAR(32) NOT NULL,
+    score           DOUBLE PRECISION NOT NULL CHECK (score >= 0 AND score <= 1),
+    signed_at       TIMESTAMPTZ NOT NULL,
+    raw_certificate JSONB NOT NULL,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+    UNIQUE (identity_id, server_domain, problem_id)
+);

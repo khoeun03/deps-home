@@ -1,0 +1,39 @@
+services:
+  api:
+    build:
+      context: ./api
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgres://deps_user:deps_pass@db:5433/deps_home_db
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - deps-net
+
+  db:
+    image: postgres:16
+    container_name: deps-home-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: deps_user
+      POSTGRES_PASSWORD: deps_pass
+      POSTGRES_DB: deps_home_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5433"
+    networks:
+      - deps-net
+
+volumes:
+  db-data:
+
+networks:
+  deps-net:
