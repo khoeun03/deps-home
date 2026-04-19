@@ -6,6 +6,7 @@ import infoRoute from './info.js';
 import meRoute from './me.js';
 import signinRoute from './signin.js';
 import signupRoute from './signup.js';
+import submitRoute from './submit.js';
 
 export default async (app: FastifyInstance) => {
   app.register(infoRoute, { prefix: '/_deps/home' });
@@ -16,4 +17,5 @@ export default async (app: FastifyInstance) => {
   app.register(signupRoute);
 
   app.register(meRoute);
+  app.register(submitRoute);
 };
