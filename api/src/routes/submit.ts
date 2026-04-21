@@ -9,6 +9,8 @@ export default async (app: FastifyInstance) => {
   app.post<{
     Body: {
       endpoint: string;
+      format: string;
+      filename: string;
       language: string;
       code: string;
     };
@@ -27,15 +29,16 @@ export default async (app: FastifyInstance) => {
     });
     if (!identity) return reply.status(401);
 
-    const { endpoint, language, code } = request.body;
+    const { endpoint, format, language, filename, code } = request.body;
 
     const data = {
-      files: [
-        {
+      format,
+      files: {
+        [filename]: {
           language,
           content: code,
         },
-      ],
+      },
       signedAt: new Date(),
     };
     const signed = signData(data, fromBase64UrlNoPad(identity.privateKey), fromBase64UrlNoPad(identity.publicKey));

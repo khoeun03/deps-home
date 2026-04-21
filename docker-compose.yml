@@ -1,13 +1,16 @@
 services:
   api:
+    image: ghcr.io/khoeun03/deps-home/api:latest
     build:
       context: ./api
     environment:
-      NODE_ENV: production
-      PORT: 3001
-      DATABASE_URL: postgres://deps_user:deps_pass@db:5433/deps_home_db
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3001}
+      DATABASE_URL: ${DATABASE_URL:-postgres://deps_user:deps_pass@db:5432/deps_home_db}
+      DEPS_HOME_DOMAIN: ${DEPS_HOME_DOMAIN}
+      SESSION_SECRET: ${SESSION_SECRET}
     ports:
-      - "3001:3001"
+      - "4001:3001"
     restart: unless-stopped
     depends_on:
       - db
@@ -17,11 +20,12 @@ services:
       - deps-home-net
 
   frontend:
+    image: ghcr.io/khoeun03/deps-home/frontend:latest
     build:
       context: ./frontend
       target: prod
     ports:
-      - "80:80"
+      - "6173:80"
     restart: unless-stopped
 
   db:
@@ -29,9 +33,9 @@ services:
     container_name: deps-home-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: deps_user
-      POSTGRES_PASSWORD: deps_pass
-      POSTGRES_DB: deps_home_db
+      POSTGRES_USER: ${POSTGRES_USER:-deps_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-deps_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-deps_home_db}
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d
