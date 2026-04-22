@@ -52,6 +52,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           target: prod
+          build-args: |
+            VITE_API_URL=https://oj.rubixdev.net/api
           tags: |
             ${{ env.IMAGE_PREFIX }}/frontend:latest
             ${{ env.IMAGE_PREFIX }}/frontend:${{ github.sha }}

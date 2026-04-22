@@ -21,6 +21,9 @@ RUN npm i -g pnpm@10
 COPY package.json pnpm-lock.yaml ./
 COPY . .
 
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 ENV CI=true
 RUN pnpm install --frozen-lockfile
 RUN pnpm build
