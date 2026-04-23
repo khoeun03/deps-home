@@ -1,4 +1,4 @@
-import { Button, Stack, TextField } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 import { useRef, useState } from 'react';
 
 const Submit = () => {
@@ -36,26 +36,34 @@ const Submit = () => {
   };
 
   return (
-    <Stack
-      direction='column'
+    <Box
       sx={{
-        maxWidth: 400,
-        alignItems: 'center',
-        gap: 1,
-        margin: '0 auto',
-        minHeight: '100vh',
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <TextField label='Endpoint' size='small' sx={{ width: '100%' }} inputRef={endpointRef} />
-      <TextField label='Format' size='small' sx={{ width: '100%' }} inputRef={formatRef} />
-      <TextField label='Language' size='small' sx={{ width: '100%' }} inputRef={languageRef} />
-      <TextField label='Filename' size='small' sx={{ width: '100%' }} inputRef={filenameRef} />
-      <TextField label='Code' size='small' sx={{ width: '100%' }} multiline rows={10} inputRef={codeRef} />
-      <Button variant='contained' sx={{ width: '100%' }} loading={loading} onClick={handleClick}>
-        Submit
-      </Button>
-    </Stack>
+      <Stack
+        direction='column'
+        sx={{
+          minWidth: 400,
+          alignItems: 'center',
+          gap: 1,
+          justifyContent: 'center',
+        }}
+      >
+        <TextField label='Endpoint' size='small' sx={{ width: '100%' }} inputRef={endpointRef} />
+        <TextField label='Format' size='small' sx={{ width: '100%' }} inputRef={formatRef} />
+        <TextField label='Language' size='small' sx={{ width: '100%' }} inputRef={languageRef} />
+        <TextField label='Filename' size='small' sx={{ width: '100%' }} inputRef={filenameRef} />
+        <TextField label='Code' size='small' sx={{ width: '100%' }} multiline rows={10} inputRef={codeRef} />
+        <Button variant='contained' sx={{ width: '100%' }} loading={loading} onClick={handleClick}>
+          Submit
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 
