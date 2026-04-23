@@ -1,16 +1,18 @@
 import { Box, Button, List, ListItemButton, ListItemText, Paper, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import Pagination from '../../components/pagination';
 import { useProblems } from '../../queries/problem';
 
 const Problems = () => {
+  const navigate = useNavigate();
+
   const [judgeUrl, setJudgeUrl] = useState<string | null>(null);
   const judgeUrlRef = useRef<HTMLInputElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data: problems } = useProblems(judgeUrl ?? '', 0, 100);
-  console.log(problems);
 
   const handleSetButtonClick = () => {
     setJudgeUrl(judgeUrlRef.current?.value ?? null);
@@ -44,6 +46,7 @@ const Problems = () => {
                 key={problem.id}
                 divider={i < problems.data.length - 1}
                 sx={{ display: 'flex', justifyContent: 'space-between' }}
+                onClick={() => navigate(`/problems/${problem.id}`)}
               >
                 <ListItemText primary={problem.title} slotProps={{ primary: { sx: { fontWeight: 500 } } }} />
                 <Typography

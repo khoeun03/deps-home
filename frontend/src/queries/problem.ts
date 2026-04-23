@@ -19,6 +19,13 @@ const fetchProblems = async (judgeUrl: string, offset: number, limit: number): P
   return res.json();
 };
 
+const fetchProblem = async (problemId: string) => {
+  const judgeUrl = problemId.split('::').at(-1);
+  const res = await fetch(normalizeUrl(`${judgeUrl}/_deps/judge/problems/${problemId}`));
+  if (!res.ok) throw new Error(`Failed to fetch problem: ${res.status}`);
+  return res.json();
+};
+
 const useProblems = (judgeUrl: string, offset: number, limit: number) =>
   useQuery({
     queryKey: ['problems', judgeUrl, offset, limit],
@@ -26,4 +33,11 @@ const useProblems = (judgeUrl: string, offset: number, limit: number) =>
     enabled: !!judgeUrl,
   });
 
-export { useProblems };
+const useProblem = (problemId: string) =>
+  useQuery({
+    queryKey: ['problem', problemId],
+    queryFn: () => fetchProblem(problemId),
+    enabled: !!problemId,
+  });
+
+export { useProblem, useProblems };

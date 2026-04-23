@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router';
 
 import MyPage from './pages/mypage';
+import Problem from './pages/problem';
 import Problems from './pages/problems';
 import SignIn from './pages/signin';
 import SignUp from './pages/signup';
@@ -14,6 +15,7 @@ const App = () => {
       <Route path='/mypage' element={<MyPage />} />
 
       <Route path='/problems' element={<Problems />} />
+      <Route path='/problems/:problemId' element={<Problem />} />
       <Route path='/submit' element={<Submit />} />
     </Routes>
   );
