@@ -1,9 +1,0 @@
-{
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "typescript.tsserver.maxTsServerMemory": 8192,
-  "sonarlint.connectedMode.project": {
-    "connectionId": "http-192-168-50-200-9000",
-    "projectKey": "khoeun03_deps-judge_4675d38a-ac51-4442-8dc2-6041e8d5bd83"
-  }
-}
