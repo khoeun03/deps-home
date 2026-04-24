@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 
 import { useProblem } from '../../queries/problem';
+import SubmitForm from './SubmitForm.js';
 
 const Problem = () => {
   const { problemId } = useParams<{ problemId: string }>();
@@ -97,6 +98,7 @@ const Problem = () => {
           {problem.content}
         </ReactMarkdown>
       </Paper>
+      <SubmitForm formats={problem.formats} />
     </Stack>
   );
 };

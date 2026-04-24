@@ -20,8 +20,6 @@ export default async (app: FastifyInstance) => {
       return reply.code(404);
     }
 
-    console.log(username, domain);
-
     const identity = await db.query.identities.findFirst({
       columns: {
         publicKey: true,

@@ -5,8 +5,6 @@ import { useMe } from '../../queries/me';
 const MyPage = () => {
   const { data: me } = useMe();
 
-  console.log(me);
-
   return (
     <Stack
       sx={{

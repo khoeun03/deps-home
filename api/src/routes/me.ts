@@ -8,7 +8,6 @@ import { signData } from '../utils/sign.js';
 export default async (app: FastifyInstance) => {
   app.get('/me', { preHandler: requireAuth }, async (request, reply) => {
     const { identityId } = request.session;
-    console.log(identityId);
 
     const identity = await db.query.identities.findFirst({
       columns: {
