@@ -26,6 +26,7 @@ const Submit = () => {
         }),
         credentials: 'include',
       });
+      console.log(res);
       setLoading(false);
     } catch (err) {
       console.error(err);
