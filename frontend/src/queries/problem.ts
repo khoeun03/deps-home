@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import type { ProblemResponse, ProblemsResponse } from '../types/api.js';
 
+// TODO: make it util
 const normalizeUrl = (url: string) => {
   if (!/^https?:\/\//.test(url)) return `https://${url}`;
   return url;

@@ -9,6 +9,7 @@ import remarkMath from 'remark-math';
 
 import { useMe } from '../../queries/me.js';
 import { useProblem } from '../../queries/problem';
+import SubmissionList from './SubmissionList.js';
 import SubmitForm from './SubmitForm.js';
 
 const Problem = () => {
@@ -101,6 +102,7 @@ const Problem = () => {
         </ReactMarkdown>
       </Paper>
       {me && <SubmitForm formats={problem.formats} />}
+      {me && <SubmissionList />}
     </Stack>
   );
 };

@@ -6,6 +6,7 @@ import infoRoute from './info.js';
 import profileRoute from './me.js';
 import signinRoute from './signin.js';
 import signupRoute from './signup.js';
+import submissionRoute from './submission.js';
 import submitRoute from './submit.js';
 
 const appRoutes = async (app: FastifyInstance) => {
@@ -18,6 +19,7 @@ const appRoutes = async (app: FastifyInstance) => {
 
   app.register(profileRoute);
   app.register(submitRoute);
+  app.register(submissionRoute);
 };
 
 export default appRoutes;

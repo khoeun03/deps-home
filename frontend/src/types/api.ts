@@ -32,3 +32,14 @@ export type ProblemResponse = {
   powFactor: number;
   formats: Record<string, SubmitFormat>;
 };
+
+export type SubmissionsResponse = {
+  data: {
+    id: string;
+    problemId: string;
+    format: string;
+    verdict?: string;
+    submittedAt: Date;
+  }[];
+  totalCount: number;
+};

@@ -1,4 +1,5 @@
 import { Button, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -37,6 +38,8 @@ const SubmitForm = ({ formats }: { formats: Record<string, SubmitFormat> }) => {
   const [files, setFiles] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const handleCodeChange = (filename: string) => {
     return (newCode: string) =>
       setFiles({
@@ -66,7 +69,7 @@ const SubmitForm = ({ formats }: { formats: Record<string, SubmitFormat> }) => {
           ),
         }),
       });
-      console.log(res);
+      if (res.ok) queryClient.invalidateQueries({ queryKey: ['submissions'] });
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -76,7 +79,7 @@ const SubmitForm = ({ formats }: { formats: Record<string, SubmitFormat> }) => {
 
   return (
     <Stack sx={{ gap: 1 }}>
-      <Select value={formatType}>
+      <Select value={formatType} size='small'>
         {formatTypes.map((ft) => (
           <MenuItem value={ft} key={ft} onClick={() => setFormatType(ft)}>
             {ft}
