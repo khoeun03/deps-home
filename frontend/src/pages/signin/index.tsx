@@ -1,4 +1,4 @@
-import { Button, Stack, TextField } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -53,38 +53,46 @@ const SignIn = () => {
   };
 
   return (
-    <Stack
-      direction='column'
+    <Box
       sx={{
-        maxWidth: 400,
-        alignItems: 'center',
-        gap: 1,
-        margin: '0 auto',
-        minHeight: '100vh',
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <TextField
-        label='Username'
-        size='small'
-        sx={{ width: '100%' }}
-        error={!!usernameInvalidReason}
-        helperText={usernameInvalidReason}
-        inputRef={usernameRef}
-      />
-      <TextField
-        label='Password'
-        type='password'
-        size='small'
-        sx={{ width: '100%' }}
-        error={!!passwordInvalidReason}
-        helperText={passwordInvalidReason}
-        inputRef={passwordRef}
-      />
-      <Button variant='contained' sx={{ width: '100%' }} loading={loading} onClick={handleSubmit}>
-        Sign In
-      </Button>
-    </Stack>
+      <Stack
+        direction='column'
+        sx={{
+          minWidth: 400,
+          alignItems: 'center',
+          gap: 1,
+          justifyContent: 'center',
+        }}
+      >
+        <TextField
+          label='Username'
+          size='small'
+          sx={{ width: '100%' }}
+          error={!!usernameInvalidReason}
+          helperText={usernameInvalidReason}
+          inputRef={usernameRef}
+        />
+        <TextField
+          label='Password'
+          type='password'
+          size='small'
+          sx={{ width: '100%' }}
+          error={!!passwordInvalidReason}
+          helperText={passwordInvalidReason}
+          inputRef={passwordRef}
+        />
+        <Button variant='contained' sx={{ width: '100%' }} loading={loading} onClick={handleSubmit}>
+          Sign In
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 
