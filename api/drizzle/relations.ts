@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { identities, authMethods, solveCertificates } from "./schema";
+import { identities, authMethods, submissions } from "./schema";
 
 export const authMethodsRelations = relations(authMethods, ({one}) => ({
 	identity: one(identities, {
@@ -10,12 +10,12 @@ export const authMethodsRelations = relations(authMethods, ({one}) => ({
 
 export const identitiesRelations = relations(identities, ({many}) => ({
 	authMethods: many(authMethods),
-	solveCertificates: many(solveCertificates),
+	submissions: many(submissions),
 }));
 
-export const solveCertificatesRelations = relations(solveCertificates, ({one}) => ({
+export const submissionsRelations = relations(submissions, ({one}) => ({
 	identity: one(identities, {
-		fields: [solveCertificates.identityId],
+		fields: [submissions.identityId],
 		references: [identities.id]
 	}),
 }));

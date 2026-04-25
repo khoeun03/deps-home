@@ -1,16 +1,4 @@
-import { sql } from 'drizzle-orm';
-import {
-  check,
-  doublePrecision,
-  foreignKey,
-  jsonb,
-  pgTable,
-  text,
-  timestamp,
-  unique,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { foreignKey, integer, jsonb, pgTable, text, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 
 export const identities = pgTable(
   'identities',
@@ -49,30 +37,24 @@ export const authMethods = pgTable(
   ],
 );
 
-export const solveCertificates = pgTable(
-  'solve_certificates',
+export const submissions = pgTable(
+  'submissions',
   {
-    id: uuid().defaultRandom().primaryKey().notNull(),
+    id: text().primaryKey().notNull(),
     identityId: uuid('identity_id').notNull(),
-    serverDomain: varchar('server_domain', { length: 255 }).notNull(),
-    serverKey: text('server_key').notNull(),
-    problemId: varchar('problem_id', { length: 32 }).notNull(),
-    score: doublePrecision().notNull(),
-    signedAt: timestamp('signed_at', { withTimezone: true, mode: 'string' }).notNull(),
-    rawCertificate: jsonb('raw_certificate').notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+    problemId: text('problem_id').notNull(),
+    format: text().notNull(),
+    verdict: text(),
+    timeMs: integer('time_ms'),
+    memoryKb: integer('memory_kb'),
+    submittedAt: timestamp('submitted_at', { withTimezone: true, mode: 'date' }).defaultNow().notNull(),
+    certificate: jsonb(),
   },
   (table) => [
     foreignKey({
       columns: [table.identityId],
       foreignColumns: [identities.id],
-      name: 'solve_certificates_identity_id_fkey',
-    }).onDelete('cascade'),
-    unique('solve_certificates_identity_id_server_domain_problem_id_key').on(
-      table.identityId,
-      table.serverDomain,
-      table.problemId,
-    ),
-    check('solve_certificates_score_check', sql`(score >= (0)::double precision) AND (score <= (1)::double precision)`),
+      name: 'submissions_identity_id_fkey',
+    }),
   ],
 );

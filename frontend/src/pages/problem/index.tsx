@@ -7,6 +7,7 @@ import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 
+import { useMe } from '../../queries/me.js';
 import { useProblem } from '../../queries/problem';
 import SubmitForm from './SubmitForm.js';
 
@@ -14,6 +15,7 @@ const Problem = () => {
   const { problemId } = useParams<{ problemId: string }>();
 
   const { data: problem, isLoading, isError } = useProblem(problemId ?? '');
+  const { data: me } = useMe();
 
   if (isLoading) return <Typography sx={{ p: 3 }}>Loading...</Typography>;
   if (isError || !problem) return <Typography sx={{ p: 3 }}>Problem not found.</Typography>;
@@ -98,7 +100,7 @@ const Problem = () => {
           {problem.content}
         </ReactMarkdown>
       </Paper>
-      <SubmitForm formats={problem.formats} />
+      {me && <SubmitForm formats={problem.formats} />}
     </Stack>
   );
 };

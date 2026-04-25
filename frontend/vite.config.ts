@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
       ? {
           proxy: {
             '/api': {
-              target: 'http://api:3001',
+              target: 'http://api:3000',
               rewrite: (path) => path.replace(/^\/api/, ''),
             },
           },

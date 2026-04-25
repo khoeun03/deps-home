@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
-import { createPublicKey, generateKeyPairSync } from 'crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { createPublicKey, generateKeyPairSync } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const KEY_DIR = process.env.KEY_DIR || './keys';
 const PRIVATE_KEY_PATH = `${KEY_DIR}/home.key`;

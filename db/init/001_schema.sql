@@ -19,16 +19,14 @@ CREATE TABLE auth_methods (
     UNIQUE (identity_id, provider)
 );
 
-CREATE TABLE solve_certificates (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    identity_id     UUID NOT NULL REFERENCES identities(id) ON DELETE CASCADE,
-    server_domain   VARCHAR(255) NOT NULL,
-    server_key      TEXT NOT NULL,
-    problem_id      VARCHAR(32) NOT NULL,
-    score           DOUBLE PRECISION NOT NULL CHECK (score >= 0 AND score <= 1),
-    signed_at       TIMESTAMPTZ NOT NULL,
-    raw_certificate JSONB NOT NULL,
-    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
-
-    UNIQUE (identity_id, server_domain, problem_id)
+CREATE TABLE submissions (
+    id              TEXT PRIMARY KEY,
+    identity_id     UUID NOT NULL REFERENCES identities(id),
+    problem_id      TEXT NOT NULL,
+    format          TEXT NOT NULL,
+    verdict         TEXT,
+    time_ms         INTEGER,
+    memory_kb       INTEGER,
+    submitted_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+    certificate     JSONB
 );

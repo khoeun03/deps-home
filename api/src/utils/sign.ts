@@ -1,5 +1,6 @@
+import { createHash, createPrivateKey, sign } from 'node:crypto';
+
 import canonicalize from 'canonicalize';
-import { createHash, createPrivateKey, sign } from 'crypto';
 
 import { toBase64UrlNoPad } from './encoding.js';
 
