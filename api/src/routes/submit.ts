@@ -35,6 +35,7 @@ const submitRoute = async (app: FastifyInstance) => {
       format,
       files,
       signedAt: new Date(),
+      intent: 'deps/problemSubmit',
     };
     const signed = signData(data, fromBase64UrlNoPad(identity.privateKey), fromBase64UrlNoPad(identity.publicKey));
 

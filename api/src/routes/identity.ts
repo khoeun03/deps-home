@@ -40,6 +40,7 @@ const identityRoute = async (app: FastifyInstance) => {
         bio: identity.bio,
         avatarUrl: identity.avatarUrl,
         signedAt: new Date(),
+        intent: 'deps/Identity',
       };
 
       return signData(data, fromBase64UrlNoPad(identity.privateKey), fromBase64UrlNoPad(identity.publicKey));
