@@ -4,7 +4,7 @@ import { db } from '../db/index.js';
 import { fromBase64UrlNoPad } from '../utils/encoding.js';
 import { signData } from '../utils/sign.js';
 
-export default async (app: FastifyInstance) => {
+const identityRoute = async (app: FastifyInstance) => {
   app.get<{
     Params: { identity: string };
   }>(
@@ -46,3 +46,5 @@ export default async (app: FastifyInstance) => {
     },
   );
 };
+
+export default identityRoute;

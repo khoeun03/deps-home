@@ -6,13 +6,13 @@ import { db } from '../db/index.js';
 import { fromBase64UrlNoPad } from '../utils/encoding.js';
 import { signData } from '../utils/sign.js';
 
-export default async (app: FastifyInstance) => {
+const handleRoute = async (app: FastifyInstance) => {
   app.get<{
     Params: { handle: string };
   }>('/handle/:handle', async (request, reply) => {
     const { handle } = request.params;
 
-    const match = handle.match(/^@([a-zA-Z0-9-]{2,18})::(.+)$/);
+    const match = new RegExp(/^@([a-zA-Z0-9-]{2,18})::(.+)$/).exec(handle);
     if (!match) return null;
 
     const [_, username, domain] = match;
@@ -42,3 +42,5 @@ export default async (app: FastifyInstance) => {
     return signData(data, fromBase64UrlNoPad(identity.privateKey), fromBase64UrlNoPad(identity.publicKey));
   });
 };
+
+export default handleRoute;

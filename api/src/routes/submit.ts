@@ -5,7 +5,7 @@ import { requireAuth } from '../utils/auth.js';
 import { fromBase64UrlNoPad } from '../utils/encoding.js';
 import { signData } from '../utils/sign.js';
 
-export default async (app: FastifyInstance) => {
+const submitRoute = async (app: FastifyInstance) => {
   app.post<{
     Body: {
       endpoint: string;
@@ -52,3 +52,5 @@ export default async (app: FastifyInstance) => {
     return reply.status(res.status).send(res.body);
   });
 };
+
+export default submitRoute;

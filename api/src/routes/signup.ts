@@ -1,12 +1,13 @@
+import { generateKeyPairSync } from 'node:crypto';
+
 import argon2 from 'argon2';
-import { generateKeyPairSync } from 'crypto';
 import type { FastifyInstance } from 'fastify';
 
 import { db } from '../db/index.js';
 import { authMethods, identities } from '../db/schema.js';
 import { toBase64UrlNoPad } from '../utils/encoding.js';
 
-export default async (app: FastifyInstance) => {
+const signupRoute = async (app: FastifyInstance) => {
   app.post<{
     Body: {
       username: string;
@@ -72,3 +73,5 @@ export default async (app: FastifyInstance) => {
     },
   );
 };
+
+export default signupRoute;

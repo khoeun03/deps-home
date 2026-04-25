@@ -3,7 +3,7 @@ import type { FastifyInstance } from 'fastify';
 
 import { db } from '../db/index.js';
 
-export default async (app: FastifyInstance) => {
+const signinRoute = async (app: FastifyInstance) => {
   app.post<{
     Body: { username: string; password: string };
   }>('/signin', async (request, reply) => {
@@ -28,3 +28,5 @@ export default async (app: FastifyInstance) => {
     return { success: true };
   });
 };
+
+export default signinRoute;
