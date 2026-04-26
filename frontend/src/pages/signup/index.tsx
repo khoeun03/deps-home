@@ -83,8 +83,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className='flex min-h-screen items-center justify-center'>
-      <div className='w-80 flex flex-col gap-2'>
+    <div className='flex flex-1 items-center justify-center'>
+      <div className='flex w-80 flex-col gap-2'>
         <TextInput
           placeholder='Username'
           ref={usernameRef}
@@ -92,12 +92,14 @@ const SignUp = () => {
           helperColor='warning'
         />
         <TextInput
+          type='password'
           placeholder='Password'
           ref={passwordRef}
           helperText={passwordInvalidReason ?? undefined}
           helperColor='warning'
         />
         <TextInput
+          type='password'
           placeholder='Confirm Password'
           ref={passwordCheckRef}
           helperText={passwordCheckInvalidReason ?? undefined}

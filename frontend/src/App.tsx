@@ -11,7 +11,7 @@ const App = () => {
   return (
     <div className='flex min-h-screen flex-col'>
       <NavBar />
-      <main className='flex-1'>
+      <main className='flex flex-1 flex-col'>
         <Routes>
           <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />

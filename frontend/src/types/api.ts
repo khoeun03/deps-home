@@ -1,3 +1,13 @@
+export type MeResponse = {
+  data: {
+    nickname: string;
+    bio?: string;
+    avatarUrl?: string;
+  };
+  key: string;
+  sign: string;
+};
+
 export type ProblemsResponse = {
   data: {
     id: string;

@@ -55,8 +55,8 @@ const SignIn = () => {
   };
 
   return (
-    <div className='absolute inset-0 flex items-center justify-center'>
-      <div className='w-80 flex flex-col gap-2'>
+    <div className='flex flex-1 items-center justify-center'>
+      <div className='flex w-80 flex-col gap-2'>
         <TextInput
           placeholder='Username'
           ref={usernameRef}
@@ -64,6 +64,7 @@ const SignIn = () => {
           helperColor='warning'
         />
         <TextInput
+          type='password'
           placeholder='Password'
           ref={passwordRef}
           helperText={passwordInvalidReason ?? undefined}
