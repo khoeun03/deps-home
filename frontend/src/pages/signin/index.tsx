@@ -1,6 +1,8 @@
-import { Box, Button, Stack, TextField } from '@mui/material';
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+
+import { Button } from '../../components/Button';
+import { TextInput } from '../../components/TextInput';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -53,46 +55,30 @@ const SignIn = () => {
   };
 
   return (
-    <Box
-      sx={{
-        position: 'absolute',
-        inset: 0,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Stack
-        direction='column'
-        sx={{
-          minWidth: 400,
-          alignItems: 'center',
-          gap: 1,
-          justifyContent: 'center',
-        }}
-      >
-        <TextField
-          label='Username'
-          size='small'
-          sx={{ width: '100%' }}
-          error={!!usernameInvalidReason}
-          helperText={usernameInvalidReason}
-          inputRef={usernameRef}
+    <div className='absolute inset-0 flex items-center justify-center'>
+      <div className='w-80 flex flex-col gap-2'>
+        <TextInput
+          placeholder='Username'
+          ref={usernameRef}
+          helperText={usernameInvalidReason ?? undefined}
+          helperColor='warning'
         />
-        <TextField
-          label='Password'
-          type='password'
-          size='small'
-          sx={{ width: '100%' }}
-          error={!!passwordInvalidReason}
-          helperText={passwordInvalidReason}
-          inputRef={passwordRef}
+        <TextInput
+          placeholder='Password'
+          ref={passwordRef}
+          helperText={passwordInvalidReason ?? undefined}
+          helperColor='warning'
         />
-        <Button variant='contained' sx={{ width: '100%' }} loading={loading} onClick={handleSubmit}>
-          Sign In
+        <Button color='primary' variant='contained' onClick={handleSubmit} loading={loading}>
+          로그인
         </Button>
-      </Stack>
-    </Box>
+        <Link to='/signup'>
+          <Button color='secondary' variant='outlined' className='w-full'>
+            회원 가입
+          </Button>
+        </Link>
+      </div>
+    </div>
   );
 };
 
