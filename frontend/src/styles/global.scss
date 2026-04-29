@@ -1,0 +1,29 @@
+@use 'color' as color;
+@use 'typography' as typography;
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  @include color.emit-palette('primary', color.$primary);
+  @include color.emit-palette('secondary', color.$secondary);
+  @include color.emit-palette('neutral', color.$neutral);
+  @include color.emit-semantic(color.$semantic-light);
+}
+
+.dark {
+  @include color.emit-semantic(color.$semantic-dark);
+}
+
+html {
+  font-family: typography.$font-sans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: typography.$font-mono;
+}

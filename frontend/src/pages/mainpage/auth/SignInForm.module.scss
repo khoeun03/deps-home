@@ -1,0 +1,31 @@
+.sign-in-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 2.25em;
+    }
+
+    width: 100%;
+    gap: 1em;
+    align-self: center;
+    margin-block-start: 1.5em;
+
+    .back {
+      aspect-ratio: 1 / 1;
+      width: 2.25em;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+  }
+}

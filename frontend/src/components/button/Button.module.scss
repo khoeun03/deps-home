@@ -1,0 +1,54 @@
+.button {
+  @include body1;
+
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  outline-color: transparent;
+  transition:
+    background-color 0.3s,
+    outline 0.1s;
+}
+
+.button-primary {
+  background-color: $primary-500;
+  color: $neutral-50;
+
+  &:hover {
+    background-color: $primary-700;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-700;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    color: $neutral-100;
+    background-color: $primary-800;
+    outline-offset: 1px;
+  }
+}
+
+.button-transparent {
+  background: none;
+  border: 1px solid $neutral-100;
+  color: $neutral-100;
+
+  &:hover {
+    background-color: $neutral-100;
+    color: $neutral-900;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $neutral-100;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    color: $neutral-100;
+    background-color: $neutral-300;
+    outline-offset: 1px;
+  }
+}

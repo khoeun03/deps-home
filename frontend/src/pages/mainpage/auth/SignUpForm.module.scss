@@ -1,0 +1,81 @@
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+
+  fieldset {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .username {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background-color: var(--color-neutral-900);
+    border: 1px solid var(--color-neutral-700);
+    color: var(--color-neutral-50);
+    font-size: var(--text-body1);
+    border-radius: 4px;
+    transition:
+      border-color 0.2s,
+      background-color 0.1s;
+
+    &:focus-within {
+      background-color: var(--color-neutral-800);
+      border-color: var(--color-primary-500);
+      outline: none;
+    }
+
+    label {
+      font-size: var(--text-body1);
+      color: var(--color-neutral-200);
+      user-select: none;
+    }
+
+    input {
+      flex: 1;
+      padding: 0;
+      border: none;
+      background: none;
+      padding-block: 0.5em;
+    }
+
+    :first-child {
+      padding-inline-start: 0.5em;
+    }
+
+    * {
+      padding-inline-end: 0.5em;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 2.25em;
+    }
+
+    width: 100%;
+    gap: 1em;
+    align-self: center;
+    margin-block-start: 1.5em;
+
+    .back {
+      aspect-ratio: 1 / 1;
+      width: 2.25em;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+  }
+}

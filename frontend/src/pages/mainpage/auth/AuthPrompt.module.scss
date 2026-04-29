@@ -1,0 +1,11 @@
+.auth-prompt {
+  display: flex;
+  justify-content: space-around;
+  gap: 1em;
+  max-width: 18em;
+  width: 100%;
+
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+  }
+}
