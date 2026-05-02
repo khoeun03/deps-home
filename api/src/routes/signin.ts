@@ -5,12 +5,12 @@ import { db } from '../db/index.js';
 
 const signinRoute = async (app: FastifyInstance) => {
   app.post<{
-    Body: { username: string; password: string };
+    Body: { handle: string; password: string };
   }>('/signin', async (request, reply) => {
-    const { username, password } = request.body;
+    const { handle, password } = request.body;
 
     const identity = await db.query.identities.findFirst({
-      where: (fields, { eq }) => eq(fields.handle, username),
+      where: (fields, { eq }) => eq(fields.handle, handle),
     });
     if (!identity) return reply.status(401).send({ error: 'Invalid credentials' });
 

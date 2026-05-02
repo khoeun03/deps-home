@@ -2,7 +2,7 @@ CREATE TABLE identities (
     id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     public_key        TEXT NOT NULL UNIQUE,
     handle            VARCHAR(18) NOT NULL UNIQUE,
-    signedIdentity    JSONB NOT NULL,
+    signed_identity   JSONB NOT NULL,
     created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at        TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -10,11 +10,8 @@ CREATE TABLE identities (
 CREATE TABLE credentials (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     identity_id UUID NOT NULL REFERENCES identities(id) ON DELETE CASCADE,
-    provider    VARCHAR(32) NOT NULL,
     credential  JSONB NOT NULL,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
-
-    UNIQUE (identity_id, provider)
 );
 
 CREATE TABLE submissions (

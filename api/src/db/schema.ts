@@ -6,7 +6,7 @@ export const identities = pgTable(
     id: uuid().defaultRandom().primaryKey().notNull(),
     publicKey: text('public_key').notNull(),
     handle: varchar({ length: 18 }).notNull(),
-    signedidentity: jsonb().notNull(),
+    signedIdentity: jsonb().notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
   },
@@ -21,7 +21,6 @@ export const credentials = pgTable(
   {
     id: uuid().defaultRandom().primaryKey().notNull(),
     identityId: uuid('identity_id').notNull(),
-    provider: varchar({ length: 32 }).notNull(),
     credential: jsonb().notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
   },
@@ -31,7 +30,6 @@ export const credentials = pgTable(
       foreignColumns: [identities.id],
       name: 'credentials_identity_id_fkey',
     }).onDelete('cascade'),
-    unique('credentials_identity_id_provider_key').on(table.identityId, table.provider),
   ],
 );
 
