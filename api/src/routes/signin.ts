@@ -14,13 +14,13 @@ const signinRoute = async (app: FastifyInstance) => {
     });
     if (!identity) return reply.status(401).send({ error: 'Invalid credentials' });
 
-    const authMethod = await db.query.credentials.findFirst({
-      where: (fields, { and, eq }) => and(eq(fields.identityId, identity.id), eq(fields.provider, 'password')),
+    const credential = await db.query.credentials.findFirst({
+      where: (fields, { eq }) => eq(fields.identityId, identity.id),
     });
-    if (!authMethod) return reply.status(401).send({ error: 'Invalid credentials' });
+    if (!credential) return reply.status(401).send({ error: 'Invalid credentials' });
 
-    const credential = authMethod.credential as { hash: string };
-    const valid = await argon2.verify(credential.hash, password);
+    const authData = credential.authData as { hash: string };
+    const valid = await argon2.verify(authData.hash, password);
     if (!valid) return reply.status(401).send({ error: 'Invalid credentials' });
 
     request.session.identityId = identity.id;

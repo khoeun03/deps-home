@@ -10,8 +10,8 @@ CREATE TABLE identities (
 CREATE TABLE credentials (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     identity_id UUID NOT NULL REFERENCES identities(id) ON DELETE CASCADE,
-    credential  JSONB NOT NULL,
-    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    auth_data   JSONB NOT NULL,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE submissions (

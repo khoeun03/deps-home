@@ -39,7 +39,7 @@ const signupRoute = async (app: FastifyInstance) => {
           properties: {
             handle: { type: 'string', pattern: '^[a-zA-Z0-9-]{2,18}$' },
             publicKey: { type: 'string', minLength: 43, maxLength: 43 },
-            authKeyHash: { type: 'string', minLength: 64, maxLength: 64 },
+            authKeyHash: { type: 'string', pattern: String.raw`^\$argon2id\$` },
             signedIdentity: {
               type: 'object',
               required: ['data', 'sign'],
@@ -118,7 +118,7 @@ const signupRoute = async (app: FastifyInstance) => {
 
         await tx.insert(credentials).values({
           identityId: identity.id,
-          credential: {
+          authData: {
             authKeyHash: storedHash,
             encryptedBundle,
             kdfParams,

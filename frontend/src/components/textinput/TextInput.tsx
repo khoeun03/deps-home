@@ -1,12 +1,14 @@
 import clsx from 'clsx';
-import type { InputHTMLAttributes } from 'react';
+import { forwardRef, type InputHTMLAttributes } from 'react';
 
 import styles from './TextInput.module.scss';
 
 type TextInputProps = InputHTMLAttributes<HTMLInputElement>;
 
-const TextInput = ({ className, ...rest }: TextInputProps) => {
-  return <input className={clsx(styles.textInput, className)} {...rest} />;
-};
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({ className, ...rest }, ref) => {
+  return <input ref={ref} className={clsx(styles.textInput, className)} {...rest} />;
+});
+
+TextInput.displayName = 'TextInput';
 
 export default TextInput;

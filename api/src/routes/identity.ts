@@ -23,13 +23,13 @@ const identityRoute = async (app: FastifyInstance) => {
 
       const identity = await db.query.identities.findFirst({
         columns: {
-          signedidentity: true,
+          signedIdentity: true,
         },
         where: (fields, { eq }) => eq(fields.publicKey, publicKey),
       });
       if (!identity) return reply.status(404);
 
-      return identity.signedidentity;
+      return identity.signedIdentity;
     },
   );
 };

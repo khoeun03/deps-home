@@ -9,13 +9,13 @@ const profileRoute = async (app: FastifyInstance) => {
 
     const identity = await db.query.identities.findFirst({
       columns: {
-        signedidentity: true,
+        signedIdentity: true,
       },
       where: (fields, { eq }) => eq(fields.id, identityId!),
     });
     if (!identity) return reply.status(401);
 
-    return identity.signedidentity;
+    return identity.signedIdentity;
   });
 };
 

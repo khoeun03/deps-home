@@ -8,9 +8,21 @@ importers:
 
   .:
     dependencies:
+      '@noble/ed25519':
+        specifier: ^3.1.0
+        version: 3.1.0
+      '@noble/hashes':
+        specifier: ^2.2.0
+        version: 2.2.0
       '@tanstack/react-query':
         specifier: ^5.100.6
         version: 5.100.6(react@19.2.5)
+      argon2-wasm-esm:
+        specifier: ^1.0.3
+        version: 1.0.3
+      canonicalize:
+        specifier: ^3.0.0
+        version: 3.0.0
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -30,6 +42,9 @@ importers:
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@9.39.4(jiti@2.6.1))
+      '@types/argon2-browser':
+        specifier: ^1.18.4
+        version: 1.18.4
       '@types/node':
         specifier: ^24.12.2
         version: 24.12.2
@@ -258,6 +273,13 @@ packages:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
 
+  '@noble/ed25519@3.1.0':
+    resolution: {integrity: sha512-pfcObRY3CtvwfaG9Mt5XqZdKmAQppl37tHUeuBhDUbiwJBCVY4/A4lbMvb1xKhMDx96AqAqZpMWuBX1HulhX4g==}
+
+  '@noble/hashes@2.2.0':
+    resolution: {integrity: sha512-IYqDGiTXab6FniAgnSdZwgWbomxpy9FtYvLKs7wCUs2a8RkITG+DFGO1DM9cr+E3/RgADRpFjrKVaJ1z6sjtEg==}
+    engines: {node: '>= 20.19.0'}
+
   '@oxc-project/types@0.127.0':
     resolution: {integrity: sha512-aIYXQBo4lCbO4z0R3FHeucQHpF46l2LbMdxRvqvuRuW2OxdnSkcng5B8+K12spgLDj93rtN3+J2Vac/TIO+ciQ==}
 
@@ -453,6 +475,9 @@ packages:
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
 
+  '@types/argon2-browser@1.18.4':
+    resolution: {integrity: sha512-K/PHAEKzdCY4mCRhgUTBcuTxeaJyLoPcd5pJ1UFSTb/FAPjj3TCK4EM/DvNmVtDzkQBMD5peJjtch3kVQDf4YQ==}
+
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
@@ -577,6 +602,9 @@ packages:
   app-root-path@2.1.0:
     resolution: {integrity: sha512-z5BqVjscbjmJBybKlICogJR2jCr2q/Ixu7Pvui5D4y97i7FLsJlvEG9XOR/KJRlkxxZz7UaaS2TMwQh1dRJ2dA==}
     engines: {node: '>= 4.0.0'}
+
+  argon2-wasm-esm@1.0.3:
+    resolution: {integrity: sha512-tRwVl0LO0Tl4rJRwTAMy+PfA7cqZb6jGB2o5lIrPqF2PFJVeNILeo4zAdFgow+MvggDWsujrrbYo14+CWF0dmQ==}
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
@@ -703,6 +731,11 @@ packages:
 
   caniuse-lite@1.0.30001791:
     resolution: {integrity: sha512-yk0l/YSrOnFZk3UROpDLQD9+kC1l4meK/wed583AXrzoarMGJcbRi2Q4RaUYbKxYAsZ8sWmaSa/DsLmdBeI1vQ==}
+
+  canonicalize@3.0.0:
+    resolution: {integrity: sha512-yYLfHyDMIXRyRqsKBRLX023riFLpXY2YOfdtqKXZRZy9qsfOJ9U+4F9YZL7MEzL5+ziN2x2nlBvY/Voi3EBljA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   chalk@2.4.1:
     resolution: {integrity: sha512-ObN6h1v2fTJSmUXoS3nMQ92LbDK9be4TV+6G+omQlGJFdcUX5heKi1LZ1YnRMIgwTLEj3E24bT6tYni50rlCfQ==}
@@ -2411,6 +2444,10 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
+  '@noble/ed25519@3.1.0': {}
+
+  '@noble/hashes@2.2.0': {}
+
   '@oxc-project/types@0.127.0': {}
 
   '@parcel/watcher-android-arm64@2.5.6':
@@ -2540,6 +2577,8 @@ snapshots:
     dependencies:
       tslib: 2.8.1
     optional: true
+
+  '@types/argon2-browser@1.18.4': {}
 
   '@types/estree@1.0.8': {}
 
@@ -2695,6 +2734,8 @@ snapshots:
       color-convert: 2.0.1
 
   app-root-path@2.1.0: {}
+
+  argon2-wasm-esm@1.0.3: {}
 
   argparse@2.0.1: {}
 
@@ -2861,6 +2902,8 @@ snapshots:
   callsites@3.1.0: {}
 
   caniuse-lite@1.0.30001791: {}
+
+  canonicalize@3.0.0: {}
 
   chalk@2.4.1:
     dependencies:

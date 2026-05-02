@@ -18,8 +18,7 @@ export const identities = pgTable("identities", {
 export const credentials = pgTable("credentials", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	identityId: uuid("identity_id").notNull(),
-	provider: varchar({ length: 32 }).notNull(),
-	credential: jsonb().notNull(),
+	authData: jsonb("auth_data").notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 }, (table) => [
 	foreignKey({
@@ -27,7 +26,6 @@ export const credentials = pgTable("credentials", {
 			foreignColumns: [identities.id],
 			name: "credentials_identity_id_fkey"
 		}).onDelete("cascade"),
-	unique("credentials_identity_id_provider_key").on(table.identityId, table.provider),
 ]);
 
 export const submissions = pgTable("submissions", {

@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@noble/ed25519": "^3.1.0",
+    "@noble/hashes": "^2.2.0",
     "@tanstack/react-query": "^5.100.6",
+    "argon2-wasm-esm": "^1.0.3",
+    "canonicalize": "^3.0.0",
     "clsx": "^2.1.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
@@ -19,6 +23,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/argon2-browser": "^1.18.4",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

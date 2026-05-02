@@ -1,10 +1,16 @@
-import { sign, verify } from '@noble/ed25519';
+import { signAsync, verifyAsync } from '@noble/ed25519';
 import { blake2b } from '@noble/hashes/blake2.js';
 import canonicalize from 'canonicalize';
 
-import { fromBase64UrlNoPad, toBase64UrlNoPad } from './encoding.js';
+const fromBase64UrlNoPad = (str: string): Buffer => {
+  return Buffer.from(str, 'base64url');
+};
 
-export async function verifyDepsSignature(
+const toBase64UrlNoPad = (buf: Buffer): string => {
+  return buf.toString('base64url').replace(/=+$/, '');
+};
+
+async function verifyDepsSignature(
   publicKey: string,
   data: Record<string, unknown>,
   signature: string,
@@ -18,18 +24,20 @@ export async function verifyDepsSignature(
     const message = new TextEncoder().encode(jcsString);
     const hash = blake2b(message, { dkLen: 64 });
 
-    return verify(signBytes, hash, pubKeyBytes);
+    return await verifyAsync(signBytes, hash, pubKeyBytes);
   } catch {
     return false;
   }
 }
 
-export async function createDepsSignature(secretKey: Uint8Array, data: Record<string, unknown>): Promise<string> {
+async function createDepsSignature(secretKey: Uint8Array, data: Record<string, unknown>): Promise<string> {
   const jcsString = canonicalize(data);
   if (!jcsString) throw new Error('Failed to canonicalize data');
   const message = new TextEncoder().encode(jcsString);
   const hash = blake2b(message, { dkLen: 64 });
 
-  const signature = sign(hash, secretKey);
+  const signature = await signAsync(hash, secretKey);
   return toBase64UrlNoPad(Buffer.from(signature));
 }
+
+export { createDepsSignature, fromBase64UrlNoPad, toBase64UrlNoPad, verifyDepsSignature };
