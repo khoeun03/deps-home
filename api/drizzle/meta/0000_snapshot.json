@@ -17,39 +17,21 @@
         },
         "public_key": {
           "name": "public_key",
-          "type": "bytea",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "private_key": {
-          "name": "private_key",
-          "type": "bytea",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "nickname": {
-          "name": "nickname",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "bio": {
-          "name": "bio",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
-        },
-        "avatar_url": {
-          "name": "avatar_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "handle": {
           "name": "handle",
           "type": "varchar(18)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        },
+        "signedidentity": {
+          "name": "signedidentity",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -89,8 +71,8 @@
       "policies": {},
       "isRLSEnabled": false
     },
-    "public.auth_methods": {
-      "name": "auth_methods",
+    "public.credentials": {
+      "name": "credentials",
       "schema": "",
       "columns": {
         "id": {
@@ -128,9 +110,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "auth_methods_identity_id_fkey": {
-          "name": "auth_methods_identity_id_fkey",
-          "tableFrom": "auth_methods",
+        "credentials_identity_id_fkey": {
+          "name": "credentials_identity_id_fkey",
+          "tableFrom": "credentials",
           "tableTo": "identities",
           "schemaTo": "public",
           "columnsFrom": [
@@ -145,29 +127,28 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "auth_methods_identity_id_provider_key": {
+        "credentials_identity_id_provider_key": {
           "columns": [
             "identity_id",
             "provider"
           ],
           "nullsNotDistinct": false,
-          "name": "auth_methods_identity_id_provider_key"
+          "name": "credentials_identity_id_provider_key"
         }
       },
       "checkConstraints": {},
       "policies": {},
       "isRLSEnabled": false
     },
-    "public.solve_certificates": {
-      "name": "solve_certificates",
+    "public.submissions": {
+      "name": "submissions",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
         "identity_id": {
           "name": "identity_id",
@@ -175,55 +156,55 @@
           "primaryKey": false,
           "notNull": true
         },
-        "server_domain": {
-          "name": "server_domain",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "server_key": {
-          "name": "server_key",
-          "type": "bytea",
-          "primaryKey": false,
-          "notNull": true
-        },
         "problem_id": {
           "name": "problem_id",
-          "type": "varchar(32)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "score": {
-          "name": "score",
-          "type": "double precision",
+        "format": {
+          "name": "format",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "signed_at": {
-          "name": "signed_at",
-          "type": "timestamp with time zone",
+        "verdict": {
+          "name": "verdict",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "raw_certificate": {
-          "name": "raw_certificate",
-          "type": "jsonb",
+        "time_ms": {
+          "name": "time_ms",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
+        "memory_kb": {
+          "name": "memory_kb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "submitted_at": {
+          "name": "submitted_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "certificate": {
+          "name": "certificate",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "solve_certificates_identity_id_fkey": {
-          "name": "solve_certificates_identity_id_fkey",
-          "tableFrom": "solve_certificates",
+        "submissions_identity_id_fkey": {
+          "name": "submissions_identity_id_fkey",
+          "tableFrom": "submissions",
           "tableTo": "identities",
           "schemaTo": "public",
           "columnsFrom": [
@@ -232,28 +213,13 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "solve_certificates_identity_id_server_domain_problem_id_key": {
-          "columns": [
-            "identity_id",
-            "server_domain",
-            "problem_id"
-          ],
-          "nullsNotDistinct": false,
-          "name": "solve_certificates_identity_id_server_domain_problem_id_key"
-        }
-      },
-      "checkConstraints": {
-        "solve_certificates_score_check": {
-          "name": "solve_certificates_score_check",
-          "value": "(score >= (0)::double precision) AND (score <= (1)::double precision)"
-        }
-      },
+      "uniqueConstraints": {},
+      "checkConstraints": {},
       "policies": {},
       "isRLSEnabled": false
     }

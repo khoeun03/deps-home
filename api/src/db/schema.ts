@@ -5,10 +5,8 @@ export const identities = pgTable(
   {
     id: uuid().defaultRandom().primaryKey().notNull(),
     publicKey: text('public_key').notNull(),
-    privateKey: text('private_key').notNull(),
     handle: varchar({ length: 18 }).notNull(),
-    bio: text(),
-    avatarUrl: text('avatar_url'),
+    signedidentity: jsonb().notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
   },
@@ -18,8 +16,8 @@ export const identities = pgTable(
   ],
 );
 
-export const authMethods = pgTable(
-  'auth_methods',
+export const credentials = pgTable(
+  'credentials',
   {
     id: uuid().defaultRandom().primaryKey().notNull(),
     identityId: uuid('identity_id').notNull(),
@@ -31,9 +29,9 @@ export const authMethods = pgTable(
     foreignKey({
       columns: [table.identityId],
       foreignColumns: [identities.id],
-      name: 'auth_methods_identity_id_fkey',
+      name: 'credentials_identity_id_fkey',
     }).onDelete('cascade'),
-    unique('auth_methods_identity_id_provider_key').on(table.identityId, table.provider),
+    unique('credentials_identity_id_provider_key').on(table.identityId, table.provider),
   ],
 );
 
@@ -47,7 +45,7 @@ export const submissions = pgTable(
     verdict: text(),
     timeMs: integer('time_ms'),
     memoryKb: integer('memory_kb'),
-    submittedAt: timestamp('submitted_at', { withTimezone: true, mode: 'date' }).defaultNow().notNull(),
+    submittedAt: timestamp('submitted_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
     certificate: jsonb(),
   },
   (table) => [

@@ -1,4 +1,4 @@
-import { pgTable, unique, uuid, text, varchar, timestamp, foreignKey, jsonb, integer } from "drizzle-orm/pg-core"
+import { pgTable, unique, uuid, text, varchar, jsonb, timestamp, foreignKey, integer } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
@@ -6,10 +6,8 @@ import { sql } from "drizzle-orm"
 export const identities = pgTable("identities", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	publicKey: text("public_key").notNull(),
-	privateKey: text("private_key").notNull(),
 	handle: varchar({ length: 18 }).notNull(),
-	bio: text(),
-	avatarUrl: text("avatar_url"),
+	signedidentity: jsonb().notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 }, (table) => [
@@ -17,7 +15,7 @@ export const identities = pgTable("identities", {
 	unique("identities_handle_key").on(table.handle),
 ]);
 
-export const authMethods = pgTable("auth_methods", {
+export const credentials = pgTable("credentials", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	identityId: uuid("identity_id").notNull(),
 	provider: varchar({ length: 32 }).notNull(),
@@ -27,16 +25,15 @@ export const authMethods = pgTable("auth_methods", {
 	foreignKey({
 			columns: [table.identityId],
 			foreignColumns: [identities.id],
-			name: "auth_methods_identity_id_fkey"
+			name: "credentials_identity_id_fkey"
 		}).onDelete("cascade"),
-	unique("auth_methods_identity_id_provider_key").on(table.identityId, table.provider),
+	unique("credentials_identity_id_provider_key").on(table.identityId, table.provider),
 ]);
 
 export const submissions = pgTable("submissions", {
-	id: integer().primaryKey().notNull(),
+	id: text().primaryKey().notNull(),
 	identityId: uuid("identity_id").notNull(),
 	problemId: text("problem_id").notNull(),
-	judgeUrl: text("judge_url").notNull(),
 	format: text().notNull(),
 	verdict: text(),
 	timeMs: integer("time_ms"),

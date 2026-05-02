@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 
 import { db } from '../db/index.js';
-import { fromBase64UrlNoPad } from '../utils/encoding.js';
-import { signData } from '../utils/sign.js';
 
 const identityRoute = async (app: FastifyInstance) => {
   app.get<{
@@ -25,25 +23,13 @@ const identityRoute = async (app: FastifyInstance) => {
 
       const identity = await db.query.identities.findFirst({
         columns: {
-          publicKey: true,
-          privateKey: true,
-          handle: true,
-          bio: true,
-          avatarUrl: true,
+          signedidentity: true,
         },
         where: (fields, { eq }) => eq(fields.publicKey, publicKey),
       });
       if (!identity) return reply.status(404);
 
-      const data = {
-        nickname: identity.handle,
-        bio: identity.bio,
-        avatarUrl: identity.avatarUrl,
-        signedAt: new Date(),
-        intent: 'deps/Identity',
-      };
-
-      return signData(data, fromBase64UrlNoPad(identity.privateKey), fromBase64UrlNoPad(identity.publicKey));
+      return identity.signedidentity;
     },
   );
 };

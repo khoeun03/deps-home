@@ -14,7 +14,7 @@ const signinRoute = async (app: FastifyInstance) => {
     });
     if (!identity) return reply.status(401).send({ error: 'Invalid credentials' });
 
-    const authMethod = await db.query.authMethods.findFirst({
+    const authMethod = await db.query.credentials.findFirst({
       where: (fields, { and, eq }) => and(eq(fields.identityId, identity.id), eq(fields.provider, 'password')),
     });
     if (!authMethod) return reply.status(401).send({ error: 'Invalid credentials' });

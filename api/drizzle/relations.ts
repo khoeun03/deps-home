@@ -1,15 +1,15 @@
 import { relations } from "drizzle-orm/relations";
-import { identities, authMethods, submissions } from "./schema";
+import { identities, credentials, submissions } from "./schema";
 
-export const authMethodsRelations = relations(authMethods, ({one}) => ({
+export const credentialsRelations = relations(credentials, ({one}) => ({
 	identity: one(identities, {
-		fields: [authMethods.identityId],
+		fields: [credentials.identityId],
 		references: [identities.id]
 	}),
 }));
 
 export const identitiesRelations = relations(identities, ({many}) => ({
-	authMethods: many(authMethods),
+	credentials: many(credentials),
 	submissions: many(submissions),
 }));
 
