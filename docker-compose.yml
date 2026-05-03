@@ -1,6 +1,6 @@
 services:
   api:
-    image: ghcr.io/khoeun03/deps-eto/api:latest
+    image: ghcr.io/deps-makers/deps-eto/api:latest
     build:
       context: ./api
     environment:
@@ -19,7 +19,7 @@ services:
       - deps-home-net
 
   frontend:
-    image: ghcr.io/khoeun03/deps-eto/frontend:latest
+    image: ghcr.io/deps-makers/deps-eto/frontend:latest
     build:
       context: ./frontend
       target: prod
