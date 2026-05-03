@@ -1,10 +1,10 @@
 import {
   createDepsSignature,
-  deriveKeys,
+  deriveEncKey,
   encryptSecretKey,
   generateKdfParams,
   generateKeyPair,
-  hashAuthKey,
+  hashPassword,
 } from './crypto';
 
 type SignUpParams = {
@@ -15,7 +15,7 @@ type SignUpParams = {
 type SignUpPayload = {
   handle: string;
   publicKey: string;
-  authKeyHash: string;
+  passwordHash: string;
   signedIdentity: {
     data: Record<string, unknown>;
     sign: string;
@@ -38,8 +38,9 @@ const prepareSignUp = async ({ handle, password }: SignUpParams): Promise<SignUp
   const { publicKey, secretKey } = await generateKeyPair();
 
   const kdfParams = generateKdfParams();
-  const { encKey, authKey } = await deriveKeys(password, kdfParams);
+  const encKey = await deriveEncKey(password, kdfParams);
 
+  const passwordHash = await hashPassword(handle, password);
   const encryptedBundle = await encryptSecretKey(encKey, secretKey);
 
   const identityData: Record<string, unknown> = {
@@ -49,16 +50,13 @@ const prepareSignUp = async ({ handle, password }: SignUpParams): Promise<SignUp
   };
   const signature = await createDepsSignature(secretKey, identityData);
 
-  const authKeyHash = await hashAuthKey(authKey);
-
   secretKey.fill(0);
   encKey.fill(0);
-  authKey.fill(0);
 
   return {
     handle,
     publicKey,
-    authKeyHash,
+    passwordHash,
     signedIdentity: {
       data: identityData,
       sign: signature,

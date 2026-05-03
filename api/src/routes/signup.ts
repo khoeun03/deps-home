@@ -10,7 +10,7 @@ const signupRoute = async (app: FastifyInstance) => {
     Body: {
       handle: string;
       publicKey: string;
-      authKeyHash: string;
+      passwordHash: string;
       signedIdentity: {
         data: Record<string, unknown>;
         sign: string;
@@ -35,11 +35,11 @@ const signupRoute = async (app: FastifyInstance) => {
       schema: {
         body: {
           type: 'object',
-          required: ['handle', 'publicKey', 'authKeyHash', 'encryptedBundle', 'kdfParams'],
+          required: ['handle', 'publicKey', 'passwordHash', 'encryptedBundle', 'kdfParams'],
           properties: {
             handle: { type: 'string', pattern: '^[a-zA-Z0-9-]{2,18}$' },
             publicKey: { type: 'string', minLength: 43, maxLength: 43 },
-            authKeyHash: { type: 'string', pattern: String.raw`^\$argon2id\$` },
+            passwordHash: { type: 'string', pattern: String.raw`^\$argon2id\$` },
             signedIdentity: {
               type: 'object',
               required: ['data', 'sign'],
@@ -83,7 +83,7 @@ const signupRoute = async (app: FastifyInstance) => {
       },
     },
     async (request, reply) => {
-      const { handle, publicKey, authKeyHash, signedIdentity, encryptedBundle, kdfParams } = request.body;
+      const { handle, publicKey, passwordHash, signedIdentity, encryptedBundle, kdfParams } = request.body;
 
       const isSignValid = await verifyDepsSignature(publicKey, signedIdentity.data, signedIdentity.sign);
       if (!isSignValid) {
@@ -92,7 +92,7 @@ const signupRoute = async (app: FastifyInstance) => {
         });
       }
 
-      const storedHash = await argon2.hash(authKeyHash, {
+      const storedHash = await argon2.hash(passwordHash, {
         type: argon2.argon2id,
       });
 
@@ -119,7 +119,7 @@ const signupRoute = async (app: FastifyInstance) => {
         await tx.insert(credentials).values({
           identityId: identity.id,
           authData: {
-            authKeyHash: storedHash,
+            passwordHash: storedHash,
             encryptedBundle,
             kdfParams,
           },

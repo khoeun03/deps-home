@@ -1,6 +1,5 @@
 import { getPublicKeyAsync, signAsync, utils } from '@noble/ed25519';
 import { blake2b } from '@noble/hashes/blake2.js';
-import { hkdf } from '@noble/hashes/hkdf.js';
 import { sha256 } from '@noble/hashes/sha2.js';
 import canonicalize from 'canonicalize';
 
@@ -19,23 +18,6 @@ const fromBase64UrlNoPad = (str: string): Uint8Array => {
   return bytes;
 };
 
-const hashAuthKey = async (authKey: Uint8Array): Promise<string> => {
-  const { default: argon2 } = await import('argon2-wasm-esm');
-
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const result = await argon2.hash({
-    pass: new Uint8Array(authKey),
-    salt,
-    type: argon2.ArgonType.argon2id,
-    time: 2,
-    mem: 65536,
-    hashLen: 32,
-    parallelism: 1,
-  });
-
-  return result.encoded;
-};
-
 async function createDepsSignature(secretKey: Uint8Array, data: Record<string, unknown>): Promise<string> {
   const jcsString = canonicalize(data);
   if (!jcsString) throw new Error('Failed to canonicalize data');
@@ -45,6 +27,28 @@ async function createDepsSignature(secretKey: Uint8Array, data: Record<string, u
   const signature = await signAsync(hash, secretKey);
   return toBase64UrlNoPad(signature);
 }
+
+const deriveAuthSalt = (handle: string): Uint8Array => {
+  const normalized = handle.toLowerCase();
+  return sha256(new TextEncoder().encode(`eto:auth:${normalized}`)).slice(0, 16);
+};
+
+const hashPassword = async (handle: string, password: string): Promise<string> => {
+  const { default: argon2 } = await import('argon2-wasm-esm');
+
+  const salt = deriveAuthSalt(handle);
+  const result = await argon2.hash({
+    pass: password,
+    salt,
+    type: 2, // Argon2id
+    time: 2,
+    mem: 65536,
+    hashLen: 32,
+    parallelism: 1,
+  });
+
+  return result.encoded;
+};
 
 // KDF
 
@@ -56,17 +60,12 @@ type KdfParams = {
   parallelism: number;
 };
 
-type DerivedKeys = {
-  encKey: Uint8Array;
-  authKey: Uint8Array;
-};
-
-const deriveKeys = async (password: string, kdfParams: KdfParams): Promise<DerivedKeys> => {
+const deriveEncKey = async (password: string, kdfParams: KdfParams): Promise<Uint8Array> => {
   const { default: argon2 } = await import('argon2-wasm-esm');
 
   const salt = Uint8Array.from(atob(kdfParams.salt), (c) => c.codePointAt(0)!);
 
-  const { hash: masterKey } = await argon2.hash({
+  const { hash: encKey } = await argon2.hash({
     pass: password,
     salt,
     type: argon2.ArgonType.argon2id,
@@ -76,13 +75,7 @@ const deriveKeys = async (password: string, kdfParams: KdfParams): Promise<Deriv
     parallelism: kdfParams.parallelism,
   });
 
-  const enc = new TextEncoder();
-  const encKey = hkdf(sha256, masterKey, undefined, enc.encode('eto-enc'), 32);
-  const authKey = hkdf(sha256, masterKey, undefined, enc.encode('eto-auth'), 32);
-
-  masterKey.fill(0);
-
-  return { encKey, authKey };
+  return encKey;
 };
 
 const generateKdfParams = (): KdfParams => {
@@ -132,14 +125,14 @@ const encryptSecretKey = async (encKey: Uint8Array, secretKey: Uint8Array): Prom
   };
 };
 
-export type { DerivedKeys, EncryptedBundle, KdfParams, KeyPair };
+export type { EncryptedBundle, KdfParams, KeyPair };
 export {
   createDepsSignature,
-  deriveKeys,
+  deriveEncKey,
   encryptSecretKey,
   fromBase64UrlNoPad,
   generateKdfParams,
   generateKeyPair,
-  hashAuthKey,
+  hashPassword,
   toBase64UrlNoPad,
 };
