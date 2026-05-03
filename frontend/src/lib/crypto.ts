@@ -125,9 +125,18 @@ const encryptSecretKey = async (encKey: Uint8Array, secretKey: Uint8Array): Prom
   };
 };
 
+const decryptSecretKey = async (encKey: Uint8Array, bundle: EncryptedBundle): Promise<Uint8Array> => {
+  const aesKey = await crypto.subtle.importKey('raw', new Uint8Array(encKey), 'AES-GCM', false, ['decrypt']);
+  const nonce = Uint8Array.from(atob(bundle.nonce), (c) => c.charCodeAt(0));
+  const ciphertext = Uint8Array.from(atob(bundle.ciphertext), (c) => c.charCodeAt(0));
+  const plaintext = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: nonce }, aesKey, new Uint8Array(ciphertext));
+  return new Uint8Array(plaintext);
+};
+
 export type { EncryptedBundle, KdfParams, KeyPair };
 export {
   createDepsSignature,
+  decryptSecretKey,
   deriveEncKey,
   encryptSecretKey,
   fromBase64UrlNoPad,

@@ -1,15 +1,30 @@
 import { useRef } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 import Button from '../../../components/button/Button';
 import TextInput from '../../../components/textinput/TextInput';
+import { performLogin } from '../../../lib/signin';
 import styles from './SignInForm.module.scss';
 
 const SignInForm = () => {
+  const navigate = useNavigate();
+
   const handleRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = async () => {};
+  const handleClick = async () => {
+    const handle = handleRef.current?.value;
+    const password = passwordRef.current?.value;
+
+    if (!handle || !password) return;
+
+    try {
+      await performLogin({ handle, password });
+      navigate('/');
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div className={styles.signInForm}>
